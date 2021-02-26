@@ -55,6 +55,7 @@ def get_from_list(l, name, args, kwargs):
 # =========================================================================================================
 
 def get_algorithm_options():
+    from pymoo.algorithms.age_moea import AGE_MOEA
     from pymoo.algorithms.ctaea import CTAEA
     from pymoo.algorithms.moead import MOEAD
     from pymoo.algorithms.nsga2 import NSGA2
@@ -83,6 +84,7 @@ def get_algorithm_options():
         ("rnsga3", RNSGA3),
         ("moead", MOEAD),
         ("ctaea", CTAEA),
+        ("age-moea", AGE_MOEA)
     ]
 
     return ALGORITHMS
