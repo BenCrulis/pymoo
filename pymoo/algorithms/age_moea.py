@@ -9,8 +9,6 @@ from pymoo.operators.selection.random_selection import RandomSelection
 from pymoo.util.display import MultiObjectiveDisplay
 from pymoo.util.nds.non_dominated_sorting import NonDominatedSorting
 
-from scipy.spatial.distance import cdist
-
 
 # =========================================================================================================
 # Implementation
@@ -117,7 +115,7 @@ class AGEMOEASurvival(Survival):
             front = objs[front_no == i, :]
             m, _ = front.shape
             front = front / normalization
-            crowd_dist[front_no == i] = 1. / cdist(front, ideal_point[None, :], 'minkowski', p=p).squeeze()
+            crowd_dist[front_no == i] = 1. / minkowski_matrix(front, ideal_point[None, :], p=p).squeeze()
 
         # Select the solutions in the last front based on their crowding distances
         last = np.arange(selected.shape[0])[front_no == max_f_no]
@@ -126,6 +124,11 @@ class AGEMOEASurvival(Survival):
 
         # return selected solutions, number of selected should be equal to population size
         return pop[selected]
+
+
+def minkowski_matrix(A, B, p):
+    i_ind, j_ind = np.meshgrid(np.arange(A.shape[0]), np.arange(B.shape[0]))
+    return np.power(np.power(np.abs(A[i_ind] - B[j_ind]), p).sum(axis=2), 1.0/p)
 
 
 def find_corner_solutions(front):
@@ -220,7 +223,7 @@ def survival_score(front, ideal_point):
         p = 1.0
 
     nn = np.linalg.norm(front, p, axis=1)
-    distances = cdist(front, front, 'minkowski', p=p)
+    distances = minkowski_matrix(front, front, p=p)
     distances = distances / nn[:, None]
 
     neighbors = 2
