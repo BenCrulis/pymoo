@@ -225,6 +225,8 @@ def survival_score(front, ideal_point):
 
     if np.isnan(p) or p <= 0.1:
         p = 1.0
+    elif p > 20:
+        p = 20.0  # avoid numpy underflow
 
     nn = np.linalg.norm(front, p, axis=1)
     distances = minkowski_matrix(front, front, p=p)
