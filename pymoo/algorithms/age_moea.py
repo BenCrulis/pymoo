@@ -79,8 +79,7 @@ class AGEMOEASurvival(Survival):
         N = n_survive
 
         # Non-dominated sorting
-        fronts = self.nds.do(objs, n_stop_if_ranked=N)  # constraint handling should be handled here
-        assert problem.n_constr <= 0
+        fronts = self.nds.do(objs, n_stop_if_ranked=N)
 
         # get max int value
         max_val = np.iinfo(np.int).max
