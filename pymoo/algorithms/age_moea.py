@@ -140,12 +140,16 @@ def find_corner_solutions(front):
         return np.arange(m)
 
     # let's define the axes of the n-dimensional spaces
-    W = np.zeros((n, n)) + 1e-6 + np.eye(n)
-    (r, _) = W.shape
+    W = 1e-6 + np.eye(n)
+    r = W.shape[0]
     indexes = np.zeros(n, dtype=np.intp)
+    selected = np.zeros(m, dtype=np.bool)
     for i in range(r):
-        index = np.argmin(point_2_line_distance(front, np.zeros(n), W[i, :]))
+        dists = point_2_line_distance(front, np.zeros(n), W[i, :])
+        dists[selected] = np.inf  # prevent already selected to be reselected
+        index = np.argmin(dists)
         indexes[i] = index
+        selected[index] = True
     return indexes
 
 
