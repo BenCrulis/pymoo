@@ -68,6 +68,7 @@ def get_algorithm_options():
     from pymoo.algorithms.so_cmaes import CMAES
     from pymoo.algorithms.so_brkga import BRKGA
     from pymoo.algorithms.so_pattern_search import PatternSearch
+    from pymoo.algorithms.so_spsa import SPSA
 
     ALGORITHMS = [
         ("ga", GA),
@@ -83,6 +84,7 @@ def get_algorithm_options():
         ("rnsga3", RNSGA3),
         ("moead", MOEAD),
         ("ctaea", CTAEA),
+        ("spsa", SPSA),
     ]
 
     return ALGORITHMS
